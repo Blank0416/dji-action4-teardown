@@ -428,27 +428,54 @@ function updateLabels() {
   if (!state.labels) return;
   const w = window.innerWidth;
   const h = window.innerHeight;
+  /** @type {{part, x:number, y:number, w:number, h:number, pri:number}[]} */
+  const live = [];
   for (const part of parts) {
     const p = partCenterNow(part, state.P);
-    const ex = part.def.explode;
     // 标签沿拆解方向再往外挪一点，贴在部件外侧
-    p.x += (part.def.label?.side === 'l' ? -0.22 : part.def.label?.side === 'r' ? 0.22 : 0);
+    p.x += part.def.label?.side === 'l' ? -0.22 : part.def.label?.side === 'r' ? 0.22 : 0;
     p.y += part.def.label?.dy ?? 0;
     p.project(stage.camera);
     const behind = p.z > 1;
     const sx = (p.x * 0.5 + 0.5) * w;
     const sy = (-p.y * 0.5 + 0.5) * h;
+    const still = part.def.explode.every((v) => v === 0);
     const visible =
       !behind &&
       (state.selected === part.def.id ||
         (state.P > 0.04 && layout.localT(part.def, state.P) > 0.12) ||
+        (state.P > 0.55 && still) || // 机身这类不拆的部件，全拆时也给标签
         state.hovered === part.def.id);
     part.labelEl.classList.toggle('on', visible);
-    if (visible) {
-      part.labelEl.style.left = `${sx.toFixed(1)}px`;
-      part.labelEl.style.top = `${sy.toFixed(1)}px`;
+    if (!visible) continue;
+    live.push({
+      part,
+      x: sx,
+      y: sy,
+      w: part.labelEl.offsetWidth || 96,
+      h: part.labelEl.offsetHeight || 22,
+      // 选中的最后排布，保证它在最上面不被推走
+      pri: state.selected === part.def.id ? 9 : 0,
+    });
+  }
+  // 简易避让：按 y 排序，冲突就往下（或往上）挪一格，最多挪 6 次
+  live.sort((a, b) => a.y - b.y || b.pri - a.pri);
+  const placed = [];
+  for (const it of live) {
+    const down = it.y > h * 0.5;
+    for (let k = 0; k < 6; k++) {
+      const hit = placed.find(
+        (o) =>
+          Math.abs(o.y - it.y) < (o.h + it.h) * 0.5 + 3 &&
+          it.x + it.w * 0.5 > o.x - o.w * 0.5 - 6 &&
+          it.x - it.w * 0.5 < o.x + o.w * 0.5 + 6,
+      );
+      if (!hit) break;
+      it.y = hit.y + (down ? 1 : -1) * (it.h + 6);
     }
-    void ex;
+    placed.push(it);
+    it.part.labelEl.style.left = `${it.x.toFixed(1)}px`;
+    it.part.labelEl.style.top = `${it.y.toFixed(1)}px`;
   }
 }
 

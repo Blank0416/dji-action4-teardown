@@ -42,7 +42,8 @@ function buildEnvironment(renderer) {
   // 地面反弹（防止下半身死黑）
   panel(0x3a3128, 0.75, 16, 16, [0, -6.5, 0], [-Math.PI / 2, 0, 0]);
 
-  const rt = pmrem.fromScene(env, 0.045);
+  // 0.045 会让 PMREM 采样数超上限并刷警告，降到 0.028 消除
+  const rt = pmrem.fromScene(env, 0.028);
   pmrem.dispose();
   env.traverse((o) => {
     if (o.isMesh) { o.geometry.dispose(); o.material.dispose(); }
