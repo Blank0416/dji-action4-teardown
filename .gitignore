@@ -18,3 +18,5 @@ tools/.probe.bundle.mjs
 
 # 注意：dist/ 是**刻意提交**的 —— 单文件 HTML 就是这个项目的成品本身，
 # 仓库里直接能下载/交给别人双击打开，不必先装 node 再构建。
+# 但打包出来的 zip 属于 Release 资产，不进历史。
+dist/*.zip
