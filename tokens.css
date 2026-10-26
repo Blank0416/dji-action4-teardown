@@ -1,0 +1,77 @@
+/* ============================================================
+   tokens.css — 设计变量（颜色 / 字号 / 圆角 / 缓动）
+   ------------------------------------------------------------
+   整个界面只用这一处定义的色板和节奏，改风格只改这里。
+   基调：深石墨虚空 + 冷灰文字 + 一抹青色信号色，
+   唯一的暖色是"录制红"，只出现在进度与状态点上。
+   ============================================================ */
+
+:root {
+  /* 背景层次：越靠前越亮，用来叠玻璃面板 */
+  --bg: #0a0c10;
+  --bg-1: #0e1217;
+  --bg-2: #141a21;
+
+  /* 文字：0 最亮（标题）→ 3 最暗（辅助） */
+  --ink-0: #eef3f8;
+  --ink-1: #c2ccd7;
+  --ink-2: #8b97a4;
+  --ink-3: #5b6672;
+
+  /* 描边：几乎都是发丝线，靠透明度分层 */
+  --line: rgba(198, 214, 230, 0.14);
+  --line-2: rgba(198, 214, 230, 0.07);
+  --line-3: rgba(198, 214, 230, 0.24);
+
+  /* 玻璃面板 */
+  --glass: rgba(13, 17, 22, 0.74);
+  --glass-hi: rgba(20, 26, 33, 0.88);
+
+  /* 信号色 */
+  --accent: #79b8d8;
+  --accent-2: #7fd4c0;
+  --accent-dim: rgba(121, 184, 216, 0.16);
+  --record: #d93b32;
+  --warn: #d8a15e;
+
+  /* 字号：小屏用 clamp 兜底，刻度只留 5 档 */
+  --fs-xs: 11px;
+  --fs-s: 12px;
+  --fs-m: 13px;
+  --fs-l: 15px;
+  --fs-xl: 20px;
+  --fs-hero: clamp(18px, 2.1vw, 26px);
+
+  /* 字距：小字号上收紧一点才显得"专业仪器" */
+  --tr-tight: -0.01em;
+  --tr-wide: 0.14em;
+
+  /* 圆角：面板走 12，胶囊走 999 */
+  --r-s: 5px;
+  --r-m: 9px;
+  --r-l: 14px;
+  --r-pill: 999px;
+
+  /* 间距节奏 */
+  --sp-1: 6px;
+  --sp-2: 10px;
+  --sp-3: 14px;
+  --sp-4: 20px;
+  --sp-5: 28px;
+  --pad: clamp(12px, 1.5vw, 22px);
+
+  /* 动效 */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 160ms;
+  --dur-2: 280ms;
+  --dur-3: 520ms;
+
+  /* 字体：中文优先系统 UI 字体（微软雅黑在 Windows 上最稳），数字用等宽 */
+  --font: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, "Liberation Mono", monospace;
+
+  /* 阴影：深色背景上不要大黑阴影，只要一点点隔离感 */
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 0 0 1px var(--line-2), 0 18px 50px rgba(0, 0, 0, 0.45);
+}

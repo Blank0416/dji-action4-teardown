@@ -1,0 +1,17 @@
+{
+  "name": "dji-action4-teardown",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "DJI Osmo Action 4 · 可点击的 3D 拆解可视化（单文件 HTML，双击即开）",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node build.mjs --dev",
+    "build": "node build.mjs",
+    "probe": "node tools/probe.mjs",
+    "render": "node tools/render.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

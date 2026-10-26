@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>DJI Osmo Action 4 · 3D 拆解可视化</title>
+<meta name="description" content="用 Three.js 纯代码还原的大疆 Osmo Action 4 运动相机 3D 拆解可视化：10 个部件、可点击、无外部模型。">
+<link rel="stylesheet" href="./dev/bundle.css">
+</head>
+<body>
+
+<!-- 渲染画布：铺满整个视口，所有 UI 浮在上面 -->
+<canvas id="stage" aria-label="DJI Osmo Action 4 三维模型"></canvas>
+
+<!-- 3D 部件标签（HTML 投影，跟随模型移动） -->
+<div class="labels" id="labels" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-row">
+      <span class="dot" aria-hidden="true"></span>
+      <h1>DJI Osmo Action 4</h1>
+    </div>
+    <p class="brand-sub">
+      <span>3D 拆解可视化</span>
+      <span class="sep">·</span>
+      <span id="meta">10 个部件 / 全部程序化生成</span>
+    </p>
+  </div>
+  <div class="tools">
+    <button id="btn-labels" class="chip" aria-pressed="true" title="显示/隐藏部件标注">标注</button>
+    <button id="btn-spin" class="chip" aria-pressed="true" title="镜头缓慢环绕">自动环绕</button>
+  </div>
+</header>
+
+<aside class="rail" id="rail">
+  <div class="rail-head">
+    <span>部件清单</span>
+    <span class="rail-count" id="rail-count">—</span>
+  </div>
+  <ol class="part-list" id="part-list"></ol>
+  <p class="rail-foot" id="order-tip"></p>
+</aside>
+
+<section class="panel" id="panel" aria-live="polite">
+  <button class="panel-close" id="panel-close" aria-label="收起详情">×</button>
+  <p class="panel-role" id="panel-role">整机</p>
+  <h2 class="panel-title" id="panel-title">DJI Osmo Action 4</h2>
+  <p class="panel-en" id="panel-en">Osmo Action 4</p>
+  <p class="panel-desc" id="panel-desc"></p>
+  <dl class="specs" id="specs"></dl>
+  <div class="panel-nav">
+    <button class="ghost" id="btn-prev">上一件</button>
+    <button class="ghost" id="btn-next">下一件</button>
+  </div>
+</section>
+
+<div class="hud">
+  <button class="play" id="btn-play" aria-label="播放拆解动画">
+    <span class="play-icon" id="play-icon">▶</span>
+  </button>
+  <div class="track">
+    <input id="scrub" class="scrub" type="range" min="0" max="1000" value="0" step="1"
+           aria-label="拆解进度" title="拖动控制拆解进度">
+    <div class="track-meta">
+      <span id="pct">0%</span>
+      <span id="stage-name">整机 · 合拢状态</span>
+    </div>
+  </div>
+  <button class="ghost" id="btn-reset" title="回到初始机位（R）">复位</button>
+</div>
+
+<p class="hint" id="hint">拖动旋转 · 滚轮缩放 · 点击部件拆解</p>
+
+<!-- 开场遮罩：几何是现场生成的，给一个明确的"在干活"反馈 -->
+<div class="loading" id="loading">
+  <div class="loading-inner">
+    <p class="loading-brand">DJI Osmo Action 4</p>
+    <p class="loading-sub">3D 拆解可视化</p>
+    <div class="loading-bar"><i id="loading-fill"></i></div>
+    <p class="loading-tip" id="loading-tip">正在生成几何…</p>
+  </div>
+</div>
+
+<noscript>
+  <p style="position:fixed;inset:0;display:grid;place-items:center;color:#c9d3df;font:16px system-ui">
+    这个页面需要 JavaScript 才能运行（WebGL 渲染）。
+  </p>
+</noscript>
+
+<script src="./dev/bundle.js"></script>
+</body>
+</html>

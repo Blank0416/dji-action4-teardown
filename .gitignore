@@ -1,0 +1,20 @@
+# 依赖
+node_modules/
+
+# 开发模式产物（esbuild --dev 生成，含 sourcemap，不进仓库）
+dev/
+
+# 临时/中间产物
+.tmp/
+*.log
+*.tgz
+package/
+
+# 本地视觉迭代截图与打包中间物
+shots/
+tools/out/
+tools/.render.bundle.mjs
+tools/.probe.bundle.mjs
+
+# 注意：dist/ 是**刻意提交**的 —— 单文件 HTML 就是这个项目的成品本身，
+# 仓库里直接能下载/交给别人双击打开，不必先装 node 再构建。
